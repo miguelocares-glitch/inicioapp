@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beta Venta Interna</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:       #0f0f0f;
+  --bg2:      #171717;
+  --bg3:      #1f1f1f;
+  --bg4:      #272727;
+  --border:   #2a2a2a;
+  --border2:  #333;
+  --text:     #f0f0ea;
+  --text2:    #999;
+  --text3:    #555;
+  --green:    #2ecc8a;
+  --green2:   #1a3d2a;
+  --amber:    #f0b429;
+  --amber2:   #3d2e0a;
+  --blue:     #5b9cf6;
+  --blue2:    #0f1f3d;
+  --red:      #f05252;
+  --red2:     #3d0f0f;
+  --purple:   #a78bfa;
+  --purple2:  #1e1635;
+  --radius:   10px;
+  --font: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 13px;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(15,15,15,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: 50px;
+  display: flex; align-items: center;
+  padding: 0 20px; gap: 14px;
+}
+.t-logo {
+  background: #fff; color: #111;
+  font-weight: 700; font-size: 12px;
+  width: 26px; height: 26px; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.t-title { font-size: 12px; font-weight: 600; letter-spacing: .06em; flex: 1; color: var(--text); }
+.t-pill {
+  font-size: 10px; padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--green2); color: var(--green);
+  border: 1px solid #2ecc8a33;
+  font-weight: 500;
+}
+.t-time { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+.t-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), #1a9e6a);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #0f1f16 0%, #111 60%);
+  border-bottom: 1px solid var(--border);
+  padding: 22px 20px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.hero-left h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+.hero-left p  { font-size: 12px; color: var(--green); }
+.hero-right   { text-align: right; }
+.hero-right .hdate { font-size: 11px; color: var(--text3); }
+.hero-right .hday  { font-size: 13px; color: var(--text2); font-weight: 500; margin-top: 2px; }
+
+/* ── LAYOUT ── */
+.page { padding: 16px 18px 32px; max-width: 1100px; margin: 0 auto; }
+
+/* ── SECTION HEADER ── */
+.sh {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px; margin-top: 22px;
+}
+.sh-dot { width: 3px; height: 14px; border-radius: 2px; background: var(--green); flex-shrink: 0; }
+.sh-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--text3); }
+
+/* ── KPI GRID ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.kpi {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 14px 12px;
+  position: relative; overflow: hidden;
+  transition: border-color .2s;
+}
+.kpi:hover { border-color: var(--border2); }
+.kpi-accent {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 2px;
+}
+.kpi-label {
+  font-size: 9px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--text3); margin-bottom: 10px;
+}
+.kpi-value {
+  font-family: var(--mono);
+  font-size: 30px; font-weight: 500;
+  color: var(--text); line-height: 1;
+  margin-bottom: 6px;
+}
+.kpi-value.loading::after {
+  content: '...';
+  animation: dots 1.2s infinite;
+}
+@keyframes dots { 0%,100%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+.kpi-sub { font-size: 10px; color: var(--text3); }
+.kpi-icon {
+  position: absolute; bottom: 10px; right: 12px;
+  font-size: 26px; opacity: .08; pointer-events: none;
+}
+
+/* ── PANEL ── */
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.panel-h {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-h-title { font-size: 11px; font-weight: 600; color: var(--text2); }
+.panel-h-badge {
+  font-size: 9px; padding: 2px 7px;
+  border-radius: 20px; font-weight: 600;
+}
+.panel-empty { padding: 22px; text-align: center; font-size: 11px; color: var(--text3); }
+
+/* ── 2 COL GRID ── */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media(max-width: 700px) { .two,.three { grid-template-columns: 1fr; } }
+@media(max-width: 900px) { .three { grid-template-columns: 1fr 1fr; } }
+
+/* ── CHART WRAPPER ── */
+.chart-wrap { padding: 14px; }
+.chart-wrap canvas { max-height: 200px; }
+
+/* ── ORDER ROWS ── */
+.orow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background .12s;
+}
+.orow:last-child { border-bottom: none; }
+.orow:hover { background: var(--bg3); }
+.oini {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; flex-shrink: 0;
+}
+.oinfo { flex: 1; min-width: 0; }
+.oname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.odetail { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.obadge {
+  font-size: 9px; padding: 3px 8px;
+  border-radius: 20px; font-weight: 600;
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* ── RANK ROWS ── */
+.rrow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.rrow:last-child { border-bottom: none; }
+.rnum {
+  width: 20px; text-align: center;
+  font-size: 10px; font-weight: 700;
+  color: var(--text3); flex-shrink: 0;
+  font-family: var(--mono);
+}
+.rnum.top { color: var(--amber); }
+.rinfo { flex: 1; min-width: 0; }
+.rname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rsub  { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.rbar-wrap { width: 70px; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.rbar { height: 3px; border-radius: 2px; }
+.rval { font-size: 11px; font-weight: 600; color: var(--text); font-family: var(--mono); flex-shrink: 0; width: 28px; text-align: right; }
+
+/* ── ALERT ROWS ── */
+.arow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  background: #1a0f0f;
+}
+.arow:last-child { border-bottom: none; }
+.arow:hover { background: #200f0f; }
+.aicon { font-size: 16px; flex-shrink: 0; }
+.ainfo { flex: 1; min-width: 0; }
+.aname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.adetail { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.astock {
+  font-size: 12px; font-weight: 700;
+  font-family: var(--mono); flex-shrink: 0;
+}
+.astock.critical { color: var(--red); }
+.astock.warning  { color: var(--amber); }
+
+/* ── CAT ROWS ── */
+.crow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.crow:last-child { border-bottom: none; }
+.crow:hover { background: var(--bg3); }
+.cname { font-size: 11px; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cbar-wrap { width: 80px; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.cbar { height: 3px; border-radius: 2px; }
+.cval { font-size: 11px; font-family: var(--mono); color: var(--text2); flex-shrink: 0; width: 28px; text-align: right; }
+
+/* ── ESTADO BADGES ── */
+.b-revision  { background: var(--amber2); color: var(--amber); }
+.b-revisado  { background: var(--blue2);  color: var(--blue); }
+.b-entregado { background: var(--green2); color: var(--green); }
+.b-default   { background: var(--bg4);    color: var(--text3); }
+
+/* ── VENTAS TOTAL ── */
+.ventas-big {
+  font-family: var(--mono);
+  font-size: 34px; font-weight: 500;
+  color: var(--green);
+  padding: 18px 14px 6px;
+}
+.ventas-sub { padding: 0 14px 16px; font-size: 11px; color: var(--text3); }
+.ventas-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--text2);
+}
+.ventas-row span { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text); margin-left: auto; }
+
+/* ── ERROR / LOADER ── */
+.err {
+  background: var(--red2); border: 1px solid var(--red);
+  border-radius: var(--radius); padding: 10px 14px;
+  font-size: 11px; color: var(--red);
+  margin-bottom: 14px; display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin {
+  width: 14px; height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: inline-block; vertical-align: middle; margin-right: 6px;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.f1 { animation: fadeUp .3s ease forwards; }
+.f2 { animation: fadeUp .3s ease .08s forwards; opacity:0; }
+.f3 { animation: fadeUp .3s ease .16s forwards; opacity:0; }
+.f4 { animation: fadeUp .3s ease .24s forwards; opacity:0; }
+.f5 { animation: fadeUp .3s ease .32s forwards; opacity:0; }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center; padding: 18px;
+  font-size: 10px; color: var(--text3);
+  border-top: 1px solid var(--border);
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="t-logo">M</div>
+  <div class="t-title">BETA VENTA INTERNA</div>
+  <div class="t-pill" id="t-status">● Cargando</div>
+  <div class="t-time" id="t-time"></div>
+  <div class="t-avatar">M</div>
+</div>
+
+<div class="hero f1">
+  <div class="hero-left">
+    <h1>Dashboard de ventas 📊</h1>
+    <p id="hero-sub">Conectando con AppSheet...</p>
+  </div>
+  <div class="hero-right">
+    <div class="hday" id="h-day"></div>
+    <div class="hdate" id="h-date"></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="err" id="err-box">⚠️ Error al cargar datos. Revisa la conexión o los nombres de columnas en la configuración.</div>
+
+  <!-- KPIs -->
+  <div class="sh f2"><div class="sh-dot"></div><div class="sh-label">Resumen general</div></div>
+  <div class="kpi-grid f2">
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--green)"></div>
+      <div class="kpi-label">Ventas confirmadas</div>
+      <div class="kpi-value loading" id="k-ventas">0</div>
+      <div class="kpi-sub" id="k-ventas-sub">pedidos con comprobante</div>
+      <div class="kpi-icon">💰</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--amber)"></div>
+      <div class="kpi-label">En revisión</div>
+      <div class="kpi-value loading" id="k-revision">0</div>
+      <div class="kpi-sub">pendientes de aprobar</div>
+      <div class="kpi-icon">🔍</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--blue)"></div>
+      <div class="kpi-label">Revisados</div>
+      <div class="kpi-value loading" id="k-revisado">0</div>
+      <div class="kpi-sub">aprobados</div>
+      <div class="kpi-icon">✅</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:#2ecc8a"></div>
+      <div class="kpi-label">Entregados</div>
+      <div class="kpi-value loading" id="k-entregado">0</div>
+      <div class="kpi-sub">completados</div>
+      <div class="kpi-icon">🚚</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--purple)"></div>
+      <div class="kpi-label">Colaboradores</div>
+      <div class="kpi-value loading" id="k-clientes">0</div>
+      <div class="kpi-sub">clientes activos</div>
+      <div class="kpi-icon">👥</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--red)"></div>
+      <div class="kpi-label">Bajo stock</div>
+      <div class="kpi-value loading" id="k-stock">0</div>
+      <div class="kpi-sub">productos ≤ 10 unidades</div>
+      <div class="kpi-icon">⚠️</div>
+    </div>
+  </div>
+
+  <!-- VENTAS + ESTADOS -->
+  <div class="sh f3"><div class="sh-dot" style="background:var(--green)"></div><div class="sh-label">Ventas y estados</div></div>
+  <div class="two f3">
+
+    <!-- Ventas totales -->
+    <div class="panel">
+      <div class="panel-h">
+        <div class="panel-h-title">Ventas Totales</div>
+      </div>
+      <div class="ventas-big" id="v-total">$—</div>
+      <div class="ventas-sub" id="v-sub">monto acumulado de ventas confirmadas</div>
+      <div class="ventas-row">Unidades vendidas <span id="v-avg">—</span></div>
+      <div class="ventas-row">Pedido más alto <span id="v-max">$—</span></div>
+      <div class="ventas-row">Monto total ingresado <span id="v-count">$—</span></div>
+    </div>
+
+    <!-- Gráfico estados -->
+    <div class="panel">
+      <div class="panel-h">
+        <div class="panel-h-title">Distribución por estado</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chart-estados"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PEDIDOS RECIENTES + COLABORADORES -->
+  <div class="sh f3"><div class="sh-dot" style="background:var(--blue)"></div><div class="sh-label">Pedidos recientes</div></div>
+  <div class="panel f3" id="pedidos-panel">
+    <div class="panel-h">
+      <div class="panel-h-title">Últimos 8 pedidos</div>
+      <div class="t-time" id="last-update" style="font-size:10px;color:var(--text3)"></div>
+    </div>
+    <div id="pedidos-lista"><div class="panel-empty"><span class="spin"></span> Cargando...</div></div>
+  </div>
+
+  <!-- RANKING + CATEGORIAS -->
+  <div class="sh f4"><div class="sh-dot" style="background:var(--amber)"></div><div class="sh-label">Productos</div></div>
+  <div class="two f4">
+
+    <!-- Ranking más vendidos -->
+    <div class="panel">
+      <div class="panel-h">
+        <div class="panel-h-title">🏆 Ranking más vendidos</div>
+        <div class="panel-h-badge" style="background:var(--amber2);color:var(--amber)">por pedidos</div>
+      </div>
+      <div id="rank-lista"><div class="panel-empty"><span class="spin"></span> Cargando...</div></div>
+    </div>
+
+    <!-- Unidades por categoría -->
+    <div class="panel">
+      <div class="panel-h">
+        <div class="panel-h-title">📦 Unidades por categoría</div>
+      </div>
+      <div id="cat-lista"><div class="panel-empty"><span class="spin"></span> Cargando...</div></div>
+      <div class="chart-wrap" style="padding-top:0">
+        <canvas id="chart-cat" style="max-height:160px"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ALERTAS BAJO STOCK -->
+  <div class="sh f5"><div class="sh-dot" style="background:var(--red)"></div><div class="sh-label">⚠️ Alertas de bajo stock</div></div>
+  <div class="panel f5">
+    <div class="panel-h">
+      <div class="panel-h-title">Productos con stock ≤ 10 unidades</div>
+      <div class="panel-h-badge" style="background:var(--red2);color:var(--red)" id="stock-badge">—</div>
+    </div>
+    <div id="stock-lista"><div class="panel-empty"><span class="spin"></span> Cargando...</div></div>
+  </div>
+
+</div>
+
+<div class="footer" id="footer-time">Cargando datos...</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIGURACIÓN
+// ══════════════════════════════════════════════
+const APP_ID     = 'abfb0e9b-9673-481c-9dcf-627e57131da9';
+const ACCESS_KEY = 'V2-QFZTh-Sf0jV-ZhNNt-1j05J-5HjjV-mu97x-7QIlE-hG2YO';
+
+const T_PEDIDOS   = 'Pedidos';
+const T_PRODUCTOS = 'Productos';
+const T_CLIENTES  = 'Clientes';
+const T_DET       = 'Detalle_Pedidos';   // tabla de detalle/líneas de pedido
+
+// Columnas Pedidos
+const C_ESTADO      = 'Estado';
+const C_CLIENTE     = 'Nombre_Cliente';
+const C_FOLIO       = 'Folio';
+const C_TOTAL       = 'Total';
+const C_COMPROBANTE = 'Comprobante_Enviado'; // TRUE/FALSE
+
+// Columnas Productos
+const C_NOMBRE_P  = 'Nombre';
+const C_CAT       = 'Categoria';
+const C_STOCK     = 'Stock';
+const C_ID_PROD   = 'ID_Producto';
+
+// Columnas Detalle_Pedidos (para ranking de productos)
+const C_PROD_REF  = 'ID_Producto';   // referencia al producto en detalle
+const C_CANTIDAD  = 'Cantidad';       // unidades por línea
+
+// Estados
+const E_REVISION  = 'EN REVISIÓN';
+const E_REVISADO  = 'REVISADO';
+const E_ENTREGADO = 'ENTREGADO';
+
+// ══════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════
+const API = (tabla) =>
+  `https://api.appsheet.com/api/v2/apps/${APP_ID}/tables/${encodeURIComponent(tabla)}/Action`;
+
+const HEADERS = {
+  'applicationAccessKey': ACCESS_KEY,
+  'Content-Type': 'application/json'
+};
+const BODY = JSON.stringify({ Action: 'Find', Properties: { Locale: 'es-CL' }, Rows: [] });
+
+async function fetchTabla(tabla) {
+  const r = await fetch(API(tabla), { method: 'POST', headers: HEADERS, body: BODY });
+  if (!r.ok) throw new Error(`HTTP ${r.status} — ${tabla}`);
+  const d = await r.json();
+  return Array.isArray(d) ? d : (d.Rows || d.rows || []);
+}
+
+function fmt(n) {
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  return '$' + Math.round(n).toLocaleString('es-CL');
+}
+function set(id, v) { const el = document.getElementById(id); if (el) { el.textContent = v; el.classList.remove('loading'); } }
+function ini(nombre) {
+  if (!nombre) return '??';
+  return nombre.trim().split(/\s+/).slice(0,2).map(p=>p[0]||'').join('').toUpperCase();
+}
+function badgeCls(e) {
+  const u = (e||'').trim().toUpperCase();
+  if (u === E_REVISION)  return 'b-revision';
+  if (u === E_REVISADO)  return 'b-revisado';
+  if (u === E_ENTREGADO) return 'b-entregado';
+  return 'b-default';
+}
+function iniStyle(e) {
+  const u = (e||'').trim().toUpperCase();
+  if (u === E_REVISION)  return 'background:#3d2e0a;color:#f0b429';
+  if (u === E_REVISADO)  return 'background:#0f1f3d;color:#5b9cf6';
+  if (u === E_ENTREGADO) return 'background:#1a3d2a;color:#2ecc8a';
+  return 'background:#272727;color:#555';
+}
+
+// Colores para gráficos
+const PALETTE = ['#2ecc8a','#5b9cf6','#f0b429','#f05252','#a78bfa','#e07a5f','#3a86a8','#06d6a0'];
+
+let chartEstados = null;
+let chartCat     = null;
+
+function renderChartEstados(revision, revisado, entregado, otros) {
+  const ctx = document.getElementById('chart-estados');
+  if (!ctx) return;
+  if (chartEstados) chartEstados.destroy();
+  chartEstados = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['EN REVISIÓN', 'REVISADO', 'ENTREGADO', 'OTROS'],
+      datasets: [{
+        data: [revision, revisado, entregado, otros],
+        backgroundColor: ['#f0b429','#5b9cf6','#2ecc8a','#555'],
+        borderColor: '#171717',
+        borderWidth: 2,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      cutout: '68%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: '#999', font: { size: 10, family: 'Inter' }, padding: 12, boxWidth: 10 }
+        },
+        tooltip: {
+          callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} pedidos` }
+        }
+      }
+    }
+  });
+}
+
+function renderChartCat(cats) {
+  const ctx = document.getElementById('chart-cat');
+  if (!ctx || cats.length === 0) return;
+  if (chartCat) chartCat.destroy();
+  chartCat = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: cats.map(c => c[0]),
+      datasets: [{
+        label: 'Unidades',
+        data: cats.map(c => c[1]),
+        backgroundColor: cats.map((_, i) => PALETTE[i % PALETTE.length] + 'cc'),
+        borderColor:     cats.map((_, i) => PALETTE[i % PALETTE.length]),
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: '#2a2a2a' } },
+        y: { ticks: { color: '#999', font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════
+//  MAIN
+// ══════════════════════════════════════════════
+async function cargarDatos() {
+  const now = new Date();
+  document.getElementById('h-day').textContent  = now.toLocaleDateString('es-CL',{ weekday:'long' });
+  document.getElementById('h-date').textContent = now.toLocaleDateString('es-CL',{ day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('t-time').textContent = now.toLocaleTimeString('es-CL',{ hour:'2-digit', minute:'2-digit' });
+
+  try {
+    // Carga todas las tablas en paralelo
+    const [pedidos, productos, clientes, detalle] = await Promise.allSettled([
+      fetchTabla(T_PEDIDOS),
+      fetchTabla(T_PRODUCTOS),
+      fetchTabla(T_CLIENTES),
+      fetchTabla(T_DET)
+    ]);
+
+    const P  = pedidos.status   === 'fulfilled' ? pedidos.value   : [];
+    const PR = productos.status === 'fulfilled' ? productos.value : [];
+    const CL = clientes.status  === 'fulfilled' ? clientes.value  : [];
+    const DT = detalle.status   === 'fulfilled' ? detalle.value   : [];
+
+    // ── DEBUG: ver qué valores reales llegan ──
+    if (P.length > 0) {
+      console.log('=== MUESTRA PEDIDO [0] ===', JSON.stringify(P[0]));
+      console.log('Comprobante values:', [...new Set(P.map(r => r[C_COMPROBANTE]))]);
+      console.log('Estado values:',     [...new Set(P.map(r => r[C_ESTADO]))]);
+      console.log('Total values (primeros 3):', P.slice(0,3).map(r => r[C_TOTAL]));
+    }
+
+    // ── HELPER: parsear monto ──
+    // AppSheet puede devolver "8.000", "8,000", "8000", "$8.000", etc.
+    function parseMonto(val) {
+      if (!val && val !== 0) return 0;
+      const s = String(val).trim();
+      // Quitar símbolo $ y espacios
+      let clean = s.replace(/[$\s]/g, '');
+      // Si tiene coma como decimal (ej: "8,5") → reemplazar coma por punto
+      // Si tiene punto como miles (ej: "8.000") → quitar puntos
+      // Detectar: si hay punto Y los dígitos después son exactamente 3 → miles
+      if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(clean)) {
+        // Formato europeo/chileno: 8.000 ó 8.000,50
+        clean = clean.replace(/\./g, '').replace(',', '.');
+      } else if (/,/.test(clean)) {
+        // Coma como decimal: 8000,50
+        clean = clean.replace(',', '.');
+      }
+      return parseFloat(clean) || 0;
+    }
+
+    // ── HELPER: detectar TRUE en campo booleano de AppSheet ──
+    function esTrue(val) {
+      if (val === true || val === 1) return true;
+      const s = String(val||'').trim().toUpperCase();
+      return s === 'TRUE' || s === 'YES' || s === 'Y' || s === '1' || s === 'SI' || s === 'SÍ';
+    }
+
+    // ── KPIs PEDIDOS ──
+    const ventas    = P.filter(r => esTrue(r[C_COMPROBANTE]));
+    const revision  = P.filter(r => (r[C_ESTADO]||'').trim().toUpperCase() === E_REVISION);
+    const revisado  = P.filter(r => (r[C_ESTADO]||'').trim().toUpperCase() === E_REVISADO);
+    // ENTREGADO acepta también "FINALIZADO" por si AppSheet usa ese valor
+    const entregado = P.filter(r => {
+      const e = (r[C_ESTADO]||'').trim().toUpperCase();
+      return e === E_ENTREGADO || e === 'FINALIZADO' || e === 'FINALIZADOS';
+    });
+    const otros = P.length - revision.length - revisado.length - entregado.length;
+
+    set('k-ventas',   ventas.length);
+    set('k-revision', revision.length);
+    set('k-revisado', revisado.length);
+    set('k-entregado',entregado.length);
+    set('k-clientes', CL.length || '—');
+
+    console.log(`Ventas (comprobante TRUE): ${ventas.length} / ${P.length}`);
+    console.log(`Revisión: ${revision.length} | Revisado: ${revisado.length} | Entregado: ${entregado.length}`);
+
+    // ── VENTAS TOTALES ──
+    const totalesVenta = ventas.map(r => parseMonto(r[C_TOTAL]));
+    const sumaVentas   = totalesVenta.reduce((a,b) => a+b, 0);
+    const maxVenta     = totalesVenta.length ? Math.max(...totalesVenta) : 0;
+
+    console.log('Totales ventas confirmadas:', totalesVenta);
+
+    // Unidades vendidas desde Detalle_Pedidos
+    const foliosVenta = new Set(ventas.map(r => r[C_FOLIO] || r['ID_Pedido'] || '').filter(Boolean));
+    let unidadesVendidas = 0;
+    if (DT.length > 0) {
+      DT.forEach(d => {
+        const folioDet = d['ID_Pedido'] || d[C_FOLIO] || d['Folio'] || '';
+        if (foliosVenta.has(folioDet)) unidadesVendidas += parseFloat(d[C_CANTIDAD] || 1) || 1;
+      });
+      if (unidadesVendidas === 0)
+        unidadesVendidas = DT.reduce((s,d) => s + (parseFloat(d[C_CANTIDAD]||1)||1), 0);
+    } else {
+      unidadesVendidas = ventas.length;
+    }
+
+    // Monto total de TODOS los pedidos sin importar estado
+    const montoTotalTodos = P.reduce((s,r) => s + parseMonto(r[C_TOTAL]), 0);
+    console.log('Monto total todos pedidos:', montoTotalTodos);
+
+    set('v-total', fmt(sumaVentas));
+    set('v-sub',   `${ventas.length} ventas confirmadas`);
+    set('v-avg',   unidadesVendidas.toLocaleString('es-CL') + ' uds');
+    set('v-max',   fmt(maxVenta));
+    set('v-count', fmt(montoTotalTodos));
+    document.getElementById('hero-sub').textContent =
+      `${P.length} pedidos · ${ventas.length} confirmados · ${fmt(sumaVentas)} en ventas`;
+
+    // ── GRÁFICO ESTADOS ──
+    renderChartEstados(revision.length, revisado.length, entregado.length, Math.max(0,otros));
+
+    // ── PEDIDOS RECIENTES ──
+    const recientes = [...P].reverse().slice(0, 8);
+    document.getElementById('pedidos-lista').innerHTML = recientes.length === 0
+      ? '<div class="panel-empty">Sin pedidos registrados</div>'
+      : recientes.map(r => {
+          const nombre = r[C_CLIENTE] || '—';
+          const folio  = r[C_FOLIO]   || '';
+          const estado = r[C_ESTADO]  || '';
+          const total  = parseFloat(String(r[C_TOTAL]||'0').replace(/[^0-9.]/g,'')) || 0;
+          const comp   = String(r[C_COMPROBANTE]||'').toUpperCase() === 'TRUE';
+          return `<div class="orow">
+            <div class="oini" style="${iniStyle(estado)}">${ini(nombre)}</div>
+            <div class="oinfo">
+              <div class="oname">${nombre}</div>
+              <div class="odetail">${folio ? folio + ' · ' : ''}${total ? fmt(total) : 'Sin monto'}${comp ? ' · ✓ Comprobante' : ''}</div>
+            </div>
+            <span class="obadge ${badgeCls(estado)}">${estado||'—'}</span>
+          </div>`;
+        }).join('');
+
+    // ── RANKING PRODUCTOS (desde Detalle_Pedidos) ──
+    const rankMap = {};
+    if (DT.length > 0) {
+      DT.forEach(d => {
+        const prod = d[C_PROD_REF] || d['Producto'] || d['ID_Producto'] || '';
+        const qty  = parseFloat(d[C_CANTIDAD] || 1) || 1;
+        if (prod) rankMap[prod] = (rankMap[prod] || 0) + qty;
+      });
+    } else {
+      // Fallback: contar desde nombres en pedidos si no hay detalle
+      P.forEach(r => {
+        const prod = r['Producto'] || r['ID_Producto'] || r[C_FOLIO] || 'Pedido';
+        rankMap[prod] = (rankMap[prod] || 0) + 1;
+      });
+    }
+
+    // Enriquecer con nombre real del producto si tenemos la tabla
+    const prodNombres = {};
+    PR.forEach(p => { prodNombres[p[C_ID_PROD]] = p[C_NOMBRE_P] || p[C_ID_PROD]; });
+
+    const rankEntries = Object.entries(rankMap)
+      .map(([id, qty]) => ({ id, nombre: prodNombres[id] || id, qty }))
+      .sort((a,b) => b.qty - a.qty)
+      .slice(0, 8);
+    const maxQty = rankEntries[0]?.qty || 1;
+
+    document.getElementById('rank-lista').innerHTML = rankEntries.length === 0
+      ? '<div class="panel-empty">Sin datos de detalle de pedidos</div>'
+      : rankEntries.map((p, i) => {
+          const pct = Math.round((p.qty / maxQty) * 100);
+          const col = PALETTE[i % PALETTE.length];
+          return `<div class="rrow">
+            <div class="rnum ${i < 3 ? 'top' : ''}">${i + 1}</div>
+            <div class="rinfo">
+              <div class="rname">${p.nombre}</div>
+              <div class="rsub">${p.qty} unidades</div>
+            </div>
+            <div class="rbar-wrap"><div class="rbar" style="width:${pct}%;background:${col}"></div></div>
+            <div class="rval">${p.qty}</div>
+          </div>`;
+        }).join('');
+
+    // ── CATEGORÍAS CON STOCK TOTAL ──
+    const catMap = {};
+    PR.forEach(p => {
+      const cat   = (p[C_CAT] || 'Sin categoría').trim();
+      const stock = parseFloat(p[C_STOCK] || 0) || 0;
+      catMap[cat] = (catMap[cat] || 0) + stock;
+    });
+    const cats = Object.entries(catMap).sort((a,b) => b[1]-a[1]);
+    const maxCat = cats[0]?.[1] || 1;
+
+    document.getElementById('cat-lista').innerHTML = cats.length === 0
+      ? '<div class="panel-empty">Sin categorías</div>'
+      : cats.map(([cat, units], i) => {
+          const pct = Math.round((units / maxCat) * 100);
+          const col = PALETTE[i % PALETTE.length];
+          return `<div class="crow">
+            <div class="cname">${cat}</div>
+            <div class="cbar-wrap"><div class="cbar" style="width:${pct}%;background:${col}"></div></div>
+            <div class="cval">${units}</div>
+          </div>`;
+        }).join('');
+
+    renderChartCat(cats.slice(0, 7));
+
+    // ── BAJO STOCK ──
+    const bajoStock = PR
+      .filter(p => (parseFloat(p[C_STOCK]) || 0) <= 10)
+      .sort((a,b) => (parseFloat(a[C_STOCK])||0) - (parseFloat(b[C_STOCK])||0));
+
+    set('k-stock', bajoStock.length);
+    document.getElementById('stock-badge').textContent = `${bajoStock.length} productos`;
+
+    document.getElementById('stock-lista').innerHTML = bajoStock.length === 0
+      ? '<div class="panel-empty" style="color:var(--green)">✓ Todo el stock está en niveles normales</div>'
+      : bajoStock.map(p => {
+          const stock = parseFloat(p[C_STOCK]) || 0;
+          const cls   = stock <= 3 ? 'critical' : 'warning';
+          const icon  = stock === 0 ? '🔴' : stock <= 3 ? '🟠' : '🟡';
+          const cat   = p[C_CAT] || 'Sin categoría';
+          const cod   = p[C_ID_PROD] || '';
+          return `<div class="arow">
+            <div class="aicon">${icon}</div>
+            <div class="ainfo">
+              <div class="aname">${p[C_NOMBRE_P] || cod || '—'}</div>
+              <div class="adetail">${cat}${cod ? ' · ' + cod : ''}</div>
+            </div>
+            <div class="astock ${cls}">${stock === 0 ? 'AGOTADO' : stock + ' uds'}</div>
+          </div>`;
+        }).join('');
+
+    // ── STATUS ──
+    const tpill = document.getElementById('t-status');
+    tpill.textContent = '● En línea';
+    tpill.style.background = 'var(--green2)';
+    tpill.style.color = 'var(--green)';
+    document.getElementById('err-box').style.display = 'none';
+    const ts = now.toLocaleTimeString('es-CL',{ hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    set('last-update', `Act. ${ts}`);
+    document.getElementById('footer-time').textContent =
+      `Última actualización: ${now.toLocaleDateString('es-CL')} ${ts} · Refresca cada 60s`;
+
+  } catch(err) {
+    console.error('AppSheet API error:', err);
+    document.getElementById('err-box').style.display = 'block';
+    document.getElementById('err-box').textContent = `⚠️ Error: ${err.message}`;
+    const tpill = document.getElementById('t-status');
+    tpill.textContent = '● Sin conexión';
+    tpill.style.background = 'var(--red2)';
+    tpill.style.color = 'var(--red)';
+    ['k-ventas','k-revision','k-revisado','k-entregado','k-clientes','k-stock'].forEach(id => set(id,'—'));
+    document.getElementById('hero-sub').textContent = 'Error al conectar con AppSheet';
+  }
+}
+
+// Reloj en tiempo real
+setInterval(() => {
+  document.getElementById('t-time').textContent =
+    new Date().toLocaleTimeString('es-CL',{ hour:'2-digit', minute:'2-digit' });
+}, 1000);
+
+cargarDatos();
+setInterval(cargarDatos, 60000);
+</script>
+</body>
+</html>
