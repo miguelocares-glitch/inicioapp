@@ -8,25 +8,25 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root {
-  --bg:       #0a0a0a;
-  --bg2:      #141414;
-  --bg3:      #1c1c1c;
-  --bg4:      #242424;
-  --border:   #2e2e2e;
-  --border2:  #3d3d3d;
-  --text:     #ffffff;
-  --text2:    #e8e8e4;
-  --text3:    #a0a09a;
-  --green:    #3ddc97;
-  --green2:   #0e2a1c;
-  --amber:    #f5bc3a;
-  --amber2:   #2e200a;
-  --blue:     #6ba8ff;
-  --blue2:    #0a1a35;
-  --red:      #f56565;
-  --red2:     #2e0a0a;
-  --purple:   #b39dfc;
-  --purple2:  #1a1030;
+  --bg:       #0f0f0f;
+  --bg2:      #171717;
+  --bg3:      #1f1f1f;
+  --bg4:      #272727;
+  --border:   #2a2a2a;
+  --border2:  #333;
+  --text:     #f0f0ea;
+  --text2:    #999;
+  --text3:    #555;
+  --green:    #2ecc8a;
+  --green2:   #1a3d2a;
+  --amber:    #f0b429;
+  --amber2:   #3d2e0a;
+  --blue:     #5b9cf6;
+  --blue2:    #0f1f3d;
+  --red:      #f05252;
+  --red2:     #3d0f0f;
+  --purple:   #a78bfa;
+  --purple2:  #1e1635;
   --radius:   10px;
   --font: 'Inter', sans-serif;
   --mono: 'JetBrains Mono', monospace;
@@ -38,14 +38,13 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
+  font-size: 13px;
 }
 
 /* ── TOPBAR ── */
 .topbar {
   position: sticky; top: 0; z-index: 200;
-  background: rgba(10,10,10,.95);
+  background: rgba(15,15,15,.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   height: 50px;
@@ -59,15 +58,15 @@ body {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.t-title { font-size: 13px; font-weight: 600; letter-spacing: .06em; flex: 1; color: var(--text); }
+.t-title { font-size: 12px; font-weight: 600; letter-spacing: .06em; flex: 1; color: var(--text); }
 .t-pill {
-  font-size: 11px; padding: 3px 9px;
+  font-size: 10px; padding: 3px 9px;
   border-radius: 20px;
   background: var(--green2); color: var(--green);
-  border: 1px solid rgba(61,220,151,.25);
-  font-weight: 600;
+  border: 1px solid #2ecc8a33;
+  font-weight: 500;
 }
-.t-time { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+.t-time { font-size: 11px; color: var(--text3); font-family: var(--mono); }
 .t-avatar {
   width: 28px; height: 28px; border-radius: 50%;
   background: linear-gradient(135deg, var(--green), #1a9e6a);
@@ -77,16 +76,16 @@ body {
 
 /* ── HERO ── */
 .hero {
-  background: linear-gradient(135deg, #0a1a10 0%, #0a0a0a 60%);
+  background: linear-gradient(135deg, #0f1f16 0%, #111 60%);
   border-bottom: 1px solid var(--border);
   padding: 22px 20px 18px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.hero-left h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
-.hero-left p  { font-size: 13px; color: var(--green); font-weight: 500; }
+.hero-left h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+.hero-left p  { font-size: 12px; color: var(--green); }
 .hero-right   { text-align: right; }
-.hero-right .hdate { font-size: 12px; color: var(--text3); }
-.hero-right .hday  { font-size: 14px; color: var(--text2); font-weight: 500; margin-top: 2px; }
+.hero-right .hdate { font-size: 11px; color: var(--text3); }
+.hero-right .hday  { font-size: 13px; color: var(--text2); font-weight: 500; margin-top: 2px; }
 
 /* ── LAYOUT ── */
 .page { padding: 16px 18px 32px; max-width: 1100px; margin: 0 auto; }
@@ -97,7 +96,7 @@ body {
   margin-bottom: 10px; margin-top: 22px;
 }
 .sh-dot { width: 3px; height: 14px; border-radius: 2px; background: var(--green); flex-shrink: 0; }
-.sh-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--text2); }
+.sh-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--text3); }
 
 /* ── KPI GRID ── */
 .kpi-grid {
@@ -120,8 +119,8 @@ body {
   width: 100%; height: 2px;
 }
 .kpi-label {
-  font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .12em;
+  font-size: 9px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em;
   color: var(--text3); margin-bottom: 10px;
 }
 .kpi-value {
@@ -135,10 +134,10 @@ body {
   animation: dots 1.2s infinite;
 }
 @keyframes dots { 0%,100%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
-.kpi-sub { font-size: 11px; color: var(--text3); font-weight: 500; }
+.kpi-sub { font-size: 10px; color: var(--text3); }
 .kpi-icon {
   position: absolute; bottom: 10px; right: 12px;
-  font-size: 26px; opacity: .07; pointer-events: none;
+  font-size: 26px; opacity: .08; pointer-events: none;
 }
 
 /* ── PANEL ── */
@@ -153,12 +152,12 @@ body {
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
-.panel-h-title { font-size: 12px; font-weight: 600; color: var(--text2); }
+.panel-h-title { font-size: 11px; font-weight: 600; color: var(--text2); }
 .panel-h-badge {
-  font-size: 10px; padding: 2px 7px;
-  border-radius: 20px; font-weight: 700;
+  font-size: 9px; padding: 2px 7px;
+  border-radius: 20px; font-weight: 600;
 }
-.panel-empty { padding: 22px; text-align: center; font-size: 12px; color: var(--text3); }
+.panel-empty { padding: 22px; text-align: center; font-size: 11px; color: var(--text3); }
 
 /* ── 2 COL GRID ── */
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -173,7 +172,7 @@ body {
 /* ── ORDER ROWS ── */
 .orow {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
+  padding: 9px 14px;
   border-bottom: 1px solid var(--border);
   transition: background .12s;
 }
@@ -185,18 +184,18 @@ body {
   font-size: 9px; font-weight: 700; flex-shrink: 0;
 }
 .oinfo { flex: 1; min-width: 0; }
-.oname { font-size: 13px; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.odetail { font-size: 11px; color: var(--text3); margin-top: 2px; font-weight: 500; }
+.oname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.odetail { font-size: 10px; color: var(--text3); margin-top: 1px; }
 .obadge {
-  font-size: 10px; padding: 3px 8px;
-  border-radius: 20px; font-weight: 700;
+  font-size: 9px; padding: 3px 8px;
+  border-radius: 20px; font-weight: 600;
   white-space: nowrap; flex-shrink: 0;
 }
 
 /* ── RANK ROWS ── */
 .rrow {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
+  padding: 9px 14px;
   border-bottom: 1px solid var(--border);
 }
 .rrow:last-child { border-bottom: none; }
@@ -208,25 +207,25 @@ body {
 }
 .rnum.top { color: var(--amber); }
 .rinfo { flex: 1; min-width: 0; }
-.rname { font-size: 12px; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rsub  { font-size: 11px; color: var(--text3); margin-top: 2px; font-weight: 500; }
+.rname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rsub  { font-size: 10px; color: var(--text3); margin-top: 1px; }
 .rbar-wrap { width: 70px; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
 .rbar { height: 3px; border-radius: 2px; }
-.rval { font-size: 11px; font-weight: 600; color: var(--text2); font-family: var(--mono); flex-shrink: 0; width: 28px; text-align: right; }
+.rval { font-size: 11px; font-weight: 600; color: var(--text); font-family: var(--mono); flex-shrink: 0; width: 28px; text-align: right; }
 
 /* ── ALERT ROWS ── */
 .arow {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(245,101,101,.15);
-  background: rgba(46,10,10,.6);
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  background: #1a0f0f;
 }
 .arow:last-child { border-bottom: none; }
-.arow:hover { background: rgba(46,10,10,.9); }
+.arow:hover { background: #200f0f; }
 .aicon { font-size: 16px; flex-shrink: 0; }
 .ainfo { flex: 1; min-width: 0; }
-.aname { font-size: 12px; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.adetail { font-size: 11px; color: var(--text3); margin-top: 2px; font-weight: 500; }
+.aname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.adetail { font-size: 10px; color: var(--text3); margin-top: 1px; }
 .astock {
   font-size: 12px; font-weight: 700;
   font-family: var(--mono); flex-shrink: 0;
@@ -237,15 +236,15 @@ body {
 /* ── CAT ROWS ── */
 .crow {
   display: flex; align-items: center; gap: 10px;
-  padding: 9px 14px;
+  padding: 8px 14px;
   border-bottom: 1px solid var(--border);
 }
 .crow:last-child { border-bottom: none; }
 .crow:hover { background: var(--bg3); }
-.cname { font-size: 12px; color: var(--text); font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cname { font-size: 11px; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cbar-wrap { width: 80px; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
 .cbar { height: 3px; border-radius: 2px; }
-.cval { font-size: 12px; font-family: var(--mono); color: var(--text2); font-weight: 500; flex-shrink: 0; width: 28px; text-align: right; }
+.cval { font-size: 11px; font-family: var(--mono); color: var(--text2); flex-shrink: 0; width: 28px; text-align: right; }
 
 /* ── ESTADO BADGES ── */
 .b-revision  { background: var(--amber2); color: var(--amber); }
@@ -260,15 +259,14 @@ body {
   color: var(--green);
   padding: 18px 14px 6px;
 }
-.ventas-sub { padding: 0 14px 16px; font-size: 12px; color: var(--text3); font-weight: 500; }
+.ventas-sub { padding: 0 14px 16px; font-size: 11px; color: var(--text3); }
 .ventas-row {
   display: flex; align-items: center; gap: 8px;
-  padding: 9px 14px;
+  padding: 8px 14px;
   border-top: 1px solid var(--border);
-  font-size: 12px; color: var(--text2);
-  font-weight: 500;
+  font-size: 11px; color: var(--text2);
 }
-.ventas-row span { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text); margin-left: auto; }
+.ventas-row span { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text); margin-left: auto; }
 
 /* ── ERROR / LOADER ── */
 .err {
@@ -280,7 +278,7 @@ body {
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin {
   width: 14px; height: 14px;
-  border: 2px solid var(--border2);
+  border: 2px solid var(--border);
   border-top-color: var(--green);
   border-radius: 50%;
   animation: spin .7s linear infinite;
@@ -299,10 +297,9 @@ body {
 /* ── FOOTER ── */
 .footer {
   text-align: center; padding: 18px;
-  font-size: 11px; color: var(--text3);
+  font-size: 10px; color: var(--text3);
   border-top: 1px solid var(--border);
   margin-top: 10px;
-  font-weight: 500;
 }
 </style>
 </head>
@@ -338,7 +335,7 @@ body {
       <div class="kpi-accent" style="background:var(--green)"></div>
       <div class="kpi-label">Ventas confirmadas</div>
       <div class="kpi-value loading" id="k-ventas">0</div>
-      <div class="kpi-sub">pedidos con comprobante</div>
+      <div class="kpi-sub" id="k-ventas-sub">pedidos con comprobante</div>
       <div class="kpi-icon">💰</div>
     </div>
     <div class="kpi">
@@ -356,7 +353,7 @@ body {
       <div class="kpi-icon">✅</div>
     </div>
     <div class="kpi">
-      <div class="kpi-accent" style="background:var(--green)"></div>
+      <div class="kpi-accent" style="background:#2ecc8a"></div>
       <div class="kpi-label">Entregados</div>
       <div class="kpi-value loading" id="k-entregado">0</div>
       <div class="kpi-sub">completados</div>
@@ -457,32 +454,42 @@ body {
 <div class="footer" id="footer-time">Cargando datos...</div>
 
 <script>
+// ══════════════════════════════════════════════
+//  CONFIGURACIÓN
+// ══════════════════════════════════════════════
 const APP_ID     = '6aac2d6e-c95a-4bfe-bb61-c172285507ba';
 const ACCESS_KEY = 'V2-Nbk6J-KHYx6-eJoae-xLAL2-P7sTC-od4Rs-jv62k-4NvCf';
 
 const T_PEDIDOS   = 'Pedidos';
 const T_PRODUCTOS = 'Productos';
 const T_CLIENTES  = 'Clientes';
-const T_DET       = 'Detalle_Pedidos';
+const T_DET       = 'Detalle_Pedidos';   // tabla de detalle/líneas de pedido
 
+// Columnas Pedidos
 const C_ESTADO      = 'Estado';
 const C_CLIENTE     = 'Nombre_Cliente';
 const C_FOLIO       = 'Folio';
 const C_TOTAL       = 'Total';
-const C_COMPROBANTE = 'Comprobante_Enviado';
+const C_COMPROBANTE = 'Comprobante_Enviado'; // TRUE/FALSE
 
+// Columnas Productos
 const C_NOMBRE_P  = 'Nombre';
 const C_CAT       = 'Categoria';
 const C_STOCK     = 'Stock';
 const C_ID_PROD   = 'ID_Producto';
 
-const C_PROD_REF  = 'ID_Producto';
-const C_CANTIDAD  = 'Cantidad';
+// Columnas Detalle_Pedidos (para ranking de productos)
+const C_PROD_REF  = 'ID_Producto';   // referencia al producto en detalle
+const C_CANTIDAD  = 'Cantidad';       // unidades por línea
 
+// Estados
 const E_REVISION  = 'EN REVISIÓN';
 const E_REVISADO  = 'REVISADO';
 const E_ENTREGADO = 'ENTREGADO';
 
+// ══════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════
 const API = (tabla) =>
   `https://api.appsheet.com/api/v2/apps/${APP_ID}/tables/${encodeURIComponent(tabla)}/Action`;
 
@@ -517,13 +524,14 @@ function badgeCls(e) {
 }
 function iniStyle(e) {
   const u = (e||'').trim().toUpperCase();
-  if (u === E_REVISION)  return 'background:#2e200a;color:#f5bc3a';
-  if (u === E_REVISADO)  return 'background:#0a1a35;color:#6ba8ff';
-  if (u === E_ENTREGADO) return 'background:#0e2a1c;color:#3ddc97';
-  return 'background:#242424;color:#8a8a82';
+  if (u === E_REVISION)  return 'background:#3d2e0a;color:#f0b429';
+  if (u === E_REVISADO)  return 'background:#0f1f3d;color:#5b9cf6';
+  if (u === E_ENTREGADO) return 'background:#1a3d2a;color:#2ecc8a';
+  return 'background:#272727;color:#555';
 }
 
-const PALETTE = ['#3ddc97','#6ba8ff','#f5bc3a','#f56565','#b39dfc','#e07a5f','#3a86a8','#06d6a0'];
+// Colores para gráficos
+const PALETTE = ['#2ecc8a','#5b9cf6','#f0b429','#f05252','#a78bfa','#e07a5f','#3a86a8','#06d6a0'];
 
 let chartEstados = null;
 let chartCat     = null;
@@ -538,8 +546,8 @@ function renderChartEstados(revision, revisado, entregado, otros) {
       labels: ['EN REVISIÓN', 'REVISADO', 'ENTREGADO', 'OTROS'],
       datasets: [{
         data: [revision, revisado, entregado, otros],
-        backgroundColor: ['#f5bc3a','#6ba8ff','#3ddc97','#3d3d3d'],
-        borderColor: '#141414',
+        backgroundColor: ['#f0b429','#5b9cf6','#2ecc8a','#555'],
+        borderColor: '#171717',
         borderWidth: 2,
         hoverOffset: 4
       }]
@@ -549,7 +557,7 @@ function renderChartEstados(revision, revisado, entregado, otros) {
       plugins: {
         legend: {
           position: 'bottom',
-          labels: { color: '#c8c8c0', font: { size: 10, family: 'Inter' }, padding: 12, boxWidth: 10 }
+          labels: { color: '#999', font: { size: 10, family: 'Inter' }, padding: 12, boxWidth: 10 }
         },
         tooltip: {
           callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} pedidos` }
@@ -580,13 +588,16 @@ function renderChartCat(cats) {
       indexAxis: 'y',
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks: { color: '#8a8a82', font: { size: 9 } }, grid: { color: '#2e2e2e' } },
-        y: { ticks: { color: '#c8c8c0', font: { size: 10 } }, grid: { display: false } }
+        x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: '#2a2a2a' } },
+        y: { ticks: { color: '#999', font: { size: 10 } }, grid: { display: false } }
       }
     }
   });
 }
 
+// ══════════════════════════════════════════════
+//  MAIN
+// ══════════════════════════════════════════════
 async function cargarDatos() {
   const now = new Date();
   document.getElementById('h-day').textContent  = now.toLocaleDateString('es-CL',{ weekday:'long' });
@@ -594,6 +605,7 @@ async function cargarDatos() {
   document.getElementById('t-time').textContent = now.toLocaleTimeString('es-CL',{ hour:'2-digit', minute:'2-digit' });
 
   try {
+    // Carga todas las tablas en paralelo
     const [pedidos, productos, clientes, detalle] = await Promise.allSettled([
       fetchTabla(T_PEDIDOS),
       fetchTabla(T_PRODUCTOS),
@@ -606,33 +618,46 @@ async function cargarDatos() {
     const CL = clientes.status  === 'fulfilled' ? clientes.value  : [];
     const DT = detalle.status   === 'fulfilled' ? detalle.value   : [];
 
+    // ── DEBUG: ver qué valores reales llegan ──
     if (P.length > 0) {
       console.log('=== MUESTRA PEDIDO [0] ===', JSON.stringify(P[0]));
       console.log('Comprobante values:', [...new Set(P.map(r => r[C_COMPROBANTE]))]);
       console.log('Estado values:',     [...new Set(P.map(r => r[C_ESTADO]))]);
+      console.log('Total values (primeros 3):', P.slice(0,3).map(r => r[C_TOTAL]));
     }
 
+    // ── HELPER: parsear monto ──
+    // AppSheet puede devolver "8.000", "8,000", "8000", "$8.000", etc.
     function parseMonto(val) {
       if (!val && val !== 0) return 0;
       const s = String(val).trim();
+      // Quitar símbolo $ y espacios
       let clean = s.replace(/[$\s]/g, '');
+      // Si tiene coma como decimal (ej: "8,5") → reemplazar coma por punto
+      // Si tiene punto como miles (ej: "8.000") → quitar puntos
+      // Detectar: si hay punto Y los dígitos después son exactamente 3 → miles
       if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(clean)) {
+        // Formato europeo/chileno: 8.000 ó 8.000,50
         clean = clean.replace(/\./g, '').replace(',', '.');
       } else if (/,/.test(clean)) {
+        // Coma como decimal: 8000,50
         clean = clean.replace(',', '.');
       }
       return parseFloat(clean) || 0;
     }
 
+    // ── HELPER: detectar TRUE en campo booleano de AppSheet ──
     function esTrue(val) {
       if (val === true || val === 1) return true;
       const s = String(val||'').trim().toUpperCase();
       return s === 'TRUE' || s === 'YES' || s === 'Y' || s === '1' || s === 'SI' || s === 'SÍ';
     }
 
+    // ── KPIs PEDIDOS ──
     const ventas    = P.filter(r => esTrue(r[C_COMPROBANTE]));
     const revision  = P.filter(r => (r[C_ESTADO]||'').trim().toUpperCase() === E_REVISION);
     const revisado  = P.filter(r => (r[C_ESTADO]||'').trim().toUpperCase() === E_REVISADO);
+    // ENTREGADO acepta también "FINALIZADO" por si AppSheet usa ese valor
     const entregado = P.filter(r => {
       const e = (r[C_ESTADO]||'').trim().toUpperCase();
       return e === E_ENTREGADO || e === 'FINALIZADO' || e === 'FINALIZADOS';
@@ -645,10 +670,17 @@ async function cargarDatos() {
     set('k-entregado',entregado.length);
     set('k-clientes', CL.length || '—');
 
+    console.log(`Ventas (comprobante TRUE): ${ventas.length} / ${P.length}`);
+    console.log(`Revisión: ${revision.length} | Revisado: ${revisado.length} | Entregado: ${entregado.length}`);
+
+    // ── VENTAS TOTALES ──
     const totalesVenta = ventas.map(r => parseMonto(r[C_TOTAL]));
     const sumaVentas   = totalesVenta.reduce((a,b) => a+b, 0);
     const maxVenta     = totalesVenta.length ? Math.max(...totalesVenta) : 0;
 
+    console.log('Totales ventas confirmadas:', totalesVenta);
+
+    // Unidades vendidas desde Detalle_Pedidos
     const foliosVenta = new Set(ventas.map(r => r[C_FOLIO] || r['ID_Pedido'] || '').filter(Boolean));
     let unidadesVendidas = 0;
     if (DT.length > 0) {
@@ -662,7 +694,9 @@ async function cargarDatos() {
       unidadesVendidas = ventas.length;
     }
 
+    // Monto total de TODOS los pedidos sin importar estado
     const montoTotalTodos = P.reduce((s,r) => s + parseMonto(r[C_TOTAL]), 0);
+    console.log('Monto total todos pedidos:', montoTotalTodos);
 
     set('v-total', fmt(sumaVentas));
     set('v-sub',   `${ventas.length} ventas confirmadas`);
@@ -672,8 +706,10 @@ async function cargarDatos() {
     document.getElementById('hero-sub').textContent =
       `${P.length} pedidos · ${ventas.length} confirmados · ${fmt(sumaVentas)} en ventas`;
 
+    // ── GRÁFICO ESTADOS ──
     renderChartEstados(revision.length, revisado.length, entregado.length, Math.max(0,otros));
 
+    // ── PEDIDOS RECIENTES ──
     const recientes = [...P].reverse().slice(0, 8);
     document.getElementById('pedidos-lista').innerHTML = recientes.length === 0
       ? '<div class="panel-empty">Sin pedidos registrados</div>'
@@ -693,6 +729,7 @@ async function cargarDatos() {
           </div>`;
         }).join('');
 
+    // ── RANKING PRODUCTOS (desde Detalle_Pedidos) ──
     const rankMap = {};
     if (DT.length > 0) {
       DT.forEach(d => {
@@ -701,12 +738,14 @@ async function cargarDatos() {
         if (prod) rankMap[prod] = (rankMap[prod] || 0) + qty;
       });
     } else {
+      // Fallback: contar desde nombres en pedidos si no hay detalle
       P.forEach(r => {
         const prod = r['Producto'] || r['ID_Producto'] || r[C_FOLIO] || 'Pedido';
         rankMap[prod] = (rankMap[prod] || 0) + 1;
       });
     }
 
+    // Enriquecer con nombre real del producto si tenemos la tabla
     const prodNombres = {};
     PR.forEach(p => { prodNombres[p[C_ID_PROD]] = p[C_NOMBRE_P] || p[C_ID_PROD]; });
 
@@ -732,6 +771,7 @@ async function cargarDatos() {
           </div>`;
         }).join('');
 
+    // ── CATEGORÍAS CON STOCK TOTAL ──
     const catMap = {};
     PR.forEach(p => {
       const cat   = (p[C_CAT] || 'Sin categoría').trim();
@@ -755,6 +795,7 @@ async function cargarDatos() {
 
     renderChartCat(cats.slice(0, 7));
 
+    // ── BAJO STOCK ──
     const bajoStock = PR
       .filter(p => (parseFloat(p[C_STOCK]) || 0) <= 10)
       .sort((a,b) => (parseFloat(a[C_STOCK])||0) - (parseFloat(b[C_STOCK])||0));
@@ -780,6 +821,7 @@ async function cargarDatos() {
           </div>`;
         }).join('');
 
+    // ── STATUS ──
     const tpill = document.getElementById('t-status');
     tpill.textContent = '● En línea';
     tpill.style.background = 'var(--green2)';
@@ -803,6 +845,7 @@ async function cargarDatos() {
   }
 }
 
+// Reloj en tiempo real
 setInterval(() => {
   document.getElementById('t-time').textContent =
     new Date().toLocaleTimeString('es-CL',{ hour:'2-digit', minute:'2-digit' });
