@@ -332,6 +332,13 @@ body {
   <div class="sh f2"><div class="sh-dot"></div><div class="sh-label">Resumen general</div></div>
   <div class="kpi-grid f2">
     <div class="kpi">
+      <div class="kpi-accent" style="background:var(--text2)"></div>
+      <div class="kpi-label">Total pedidos</div>
+      <div class="kpi-value loading" id="k-total">0</div>
+      <div class="kpi-sub">pedidos registrados</div>
+      <div class="kpi-icon">📋</div>
+    </div>
+    <div class="kpi">
       <div class="kpi-accent" style="background:var(--green)"></div>
       <div class="kpi-label">Ventas confirmadas</div>
       <div class="kpi-value loading" id="k-ventas">0</div>
@@ -637,6 +644,7 @@ async function cargarDatos() {
     });
     const otros = P.length - revision.length - revisado.length - entregado.length;
 
+    set('k-total',    P.length);
     set('k-ventas',   ventas.length);
     set('k-revision', revision.length);
     set('k-revisado', revisado.length);
@@ -796,7 +804,7 @@ async function cargarDatos() {
     tpill.textContent = '● Sin conexión';
     tpill.style.background = 'var(--red2)';
     tpill.style.color = 'var(--red)';
-    ['k-ventas','k-revision','k-revisado','k-entregado','k-clientes','k-stock'].forEach(id => set(id,'—'));
+    ['k-total','k-ventas','k-revision','k-revisado','k-entregado','k-clientes','k-stock'].forEach(id => set(id,'—'));
     document.getElementById('hero-sub').textContent = 'Error al conectar con AppSheet';
   }
 }
