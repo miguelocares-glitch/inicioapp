@@ -101,9 +101,15 @@ body {
 /* ── KPI GRID ── */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-bottom: 4px;
+}
+@media(max-width: 800px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
 }
 .kpi {
   background: var(--bg2);
@@ -549,7 +555,7 @@ function renderChartEstados(revision, revisado, entregado, otros) {
       }]
     },
     options: {
-      cutout: '68%',
+      cutout: '62%',
       plugins: {
         legend: {
           position: 'bottom',
@@ -559,7 +565,46 @@ function renderChartEstados(revision, revisado, entregado, otros) {
           callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} pedidos` }
         }
       }
-    }
+    },
+    plugins: [{
+      id: 'doughnutLabels',
+      afterDraw(chart) {
+        const { ctx, data, chartArea } = chart;
+        const dataset = data.datasets[0];
+        const total = dataset.data.reduce((a, b) => a + b, 0);
+        const colors = ['#f0b429','#5b9cf6','#2ecc8a','#aaaaaa'];
+        const labels = ['EN REV.', 'REV.', 'ENTREGADO', 'OTROS'];
+        chart.getDatasetMeta(0).data.forEach((arc, i) => {
+          const val = dataset.data[i];
+          if (!val) return;
+          const angle = (arc.startAngle + arc.endAngle) / 2;
+          const r = (arc.outerRadius + arc.innerRadius) / 2;
+          const x = arc.x + Math.cos(angle) * r;
+          const y = arc.y + Math.sin(angle) * r;
+          ctx.save();
+          ctx.font = 'bold 13px JetBrains Mono, monospace';
+          ctx.fillStyle = '#fff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(0,0,0,0.7)';
+          ctx.shadowBlur = 4;
+          ctx.fillText(val, x, y);
+          ctx.restore();
+        });
+        const cx = (chartArea.left + chartArea.right) / 2;
+        const cy = (chartArea.top + chartArea.bottom) / 2;
+        ctx.save();
+        ctx.font = 'bold 22px JetBrains Mono, monospace';
+        ctx.fillStyle = '#f0f0ea';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(total, cx, cy - 8);
+        ctx.font = '11px Inter, sans-serif';
+        ctx.fillStyle = '#a0a09a';
+        ctx.fillText('pedidos', cx, cy + 12);
+        ctx.restore();
+      }
+    }]
   });
 }
 
