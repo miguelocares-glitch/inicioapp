@@ -15,8 +15,8 @@
   --border:   #2a2a2a;
   --border2:  #333;
   --text:     #f0f0ea;
-  --text2:    #999;
-  --text3:    #555;
+  --text2:    #d0d0c8;
+  --text3:    #a0a09a;
   --green:    #2ecc8a;
   --green2:   #1a3d2a;
   --amber:    #f0b429;
@@ -66,7 +66,7 @@ body {
   border: 1px solid #2ecc8a33;
   font-weight: 500;
 }
-.t-time { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+.t-time { font-size: 11px; color: var(--text2); font-family: var(--mono); }
 .t-avatar {
   width: 28px; height: 28px; border-radius: 50%;
   background: linear-gradient(135deg, var(--green), #1a9e6a);
@@ -84,8 +84,8 @@ body {
 .hero-left h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
 .hero-left p  { font-size: 12px; color: var(--green); }
 .hero-right   { text-align: right; }
-.hero-right .hdate { font-size: 11px; color: var(--text3); }
-.hero-right .hday  { font-size: 13px; color: var(--text2); font-weight: 500; margin-top: 2px; }
+.hero-right .hdate { font-size: 11px; color: var(--text2); }
+.hero-right .hday  { font-size: 13px; color: var(--text); font-weight: 500; margin-top: 2px; }
 
 /* ── LAYOUT ── */
 .page { padding: 16px 18px 32px; max-width: 1100px; margin: 0 auto; }
@@ -96,7 +96,7 @@ body {
   margin-bottom: 10px; margin-top: 22px;
 }
 .sh-dot { width: 3px; height: 14px; border-radius: 2px; background: var(--green); flex-shrink: 0; }
-.sh-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--text3); }
+.sh-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--text2); }
 
 /* ── KPI GRID ── */
 .kpi-grid {
@@ -121,7 +121,7 @@ body {
 .kpi-label {
   font-size: 9px; font-weight: 600;
   text-transform: uppercase; letter-spacing: .1em;
-  color: var(--text3); margin-bottom: 10px;
+  color: var(--text2); margin-bottom: 10px;
 }
 .kpi-value {
   font-family: var(--mono);
@@ -134,7 +134,7 @@ body {
   animation: dots 1.2s infinite;
 }
 @keyframes dots { 0%,100%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
-.kpi-sub { font-size: 10px; color: var(--text3); }
+.kpi-sub { font-size: 10px; color: var(--text2); }
 .kpi-icon {
   position: absolute; bottom: 10px; right: 12px;
   font-size: 26px; opacity: .08; pointer-events: none;
@@ -152,12 +152,12 @@ body {
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
-.panel-h-title { font-size: 11px; font-weight: 600; color: var(--text2); }
+.panel-h-title { font-size: 11px; font-weight: 600; color: var(--text); }
 .panel-h-badge {
   font-size: 9px; padding: 2px 7px;
   border-radius: 20px; font-weight: 600;
 }
-.panel-empty { padding: 22px; text-align: center; font-size: 11px; color: var(--text3); }
+.panel-empty { padding: 22px; text-align: center; font-size: 11px; color: var(--text2); }
 
 /* ── 2 COL GRID ── */
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -185,7 +185,7 @@ body {
 }
 .oinfo { flex: 1; min-width: 0; }
 .oname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.odetail { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.odetail { font-size: 10px; color: var(--text2); margin-top: 1px; }
 .obadge {
   font-size: 9px; padding: 3px 8px;
   border-radius: 20px; font-weight: 600;
@@ -202,13 +202,13 @@ body {
 .rnum {
   width: 20px; text-align: center;
   font-size: 10px; font-weight: 700;
-  color: var(--text3); flex-shrink: 0;
+  color: var(--text2); flex-shrink: 0;
   font-family: var(--mono);
 }
 .rnum.top { color: var(--amber); }
 .rinfo { flex: 1; min-width: 0; }
 .rname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rsub  { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.rsub  { font-size: 10px; color: var(--text2); margin-top: 1px; }
 .rbar-wrap { width: 70px; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
 .rbar { height: 3px; border-radius: 2px; }
 .rval { font-size: 11px; font-weight: 600; color: var(--text); font-family: var(--mono); flex-shrink: 0; width: 28px; text-align: right; }
@@ -225,7 +225,7 @@ body {
 .aicon { font-size: 16px; flex-shrink: 0; }
 .ainfo { flex: 1; min-width: 0; }
 .aname { font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.adetail { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.adetail { font-size: 10px; color: var(--text2); margin-top: 1px; }
 .astock {
   font-size: 12px; font-weight: 700;
   font-family: var(--mono); flex-shrink: 0;
@@ -244,13 +244,13 @@ body {
 .cname { font-size: 11px; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cbar-wrap { width: 80px; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
 .cbar { height: 3px; border-radius: 2px; }
-.cval { font-size: 11px; font-family: var(--mono); color: var(--text2); flex-shrink: 0; width: 28px; text-align: right; }
+.cval { font-size: 11px; font-family: var(--mono); color: var(--text); flex-shrink: 0; width: 28px; text-align: right; }
 
 /* ── ESTADO BADGES ── */
 .b-revision  { background: var(--amber2); color: var(--amber); }
 .b-revisado  { background: var(--blue2);  color: var(--blue); }
 .b-entregado { background: var(--green2); color: var(--green); }
-.b-default   { background: var(--bg4);    color: var(--text3); }
+.b-default   { background: var(--bg4);    color: var(--text2); }
 
 /* ── VENTAS TOTAL ── */
 .ventas-big {
@@ -259,12 +259,12 @@ body {
   color: var(--green);
   padding: 18px 14px 6px;
 }
-.ventas-sub { padding: 0 14px 16px; font-size: 11px; color: var(--text3); }
+.ventas-sub { padding: 0 14px 16px; font-size: 11px; color: var(--text2); }
 .ventas-row {
   display: flex; align-items: center; gap: 8px;
   padding: 8px 14px;
   border-top: 1px solid var(--border);
-  font-size: 11px; color: var(--text2);
+  font-size: 11px; color: var(--text);
 }
 .ventas-row span { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text); margin-left: auto; }
 
@@ -297,7 +297,7 @@ body {
 /* ── FOOTER ── */
 .footer {
   text-align: center; padding: 18px;
-  font-size: 10px; color: var(--text3);
+  font-size: 10px; color: var(--text2);
   border-top: 1px solid var(--border);
   margin-top: 10px;
 }
@@ -408,7 +408,7 @@ body {
   <div class="panel f3" id="pedidos-panel">
     <div class="panel-h">
       <div class="panel-h-title">Últimos 8 pedidos</div>
-      <div class="t-time" id="last-update" style="font-size:10px;color:var(--text3)"></div>
+      <div class="t-time" id="last-update" style="font-size:10px;color:var(--text2)"></div>
     </div>
     <div id="pedidos-lista"><div class="panel-empty"><span class="spin"></span> Cargando...</div></div>
   </div>
@@ -454,42 +454,32 @@ body {
 <div class="footer" id="footer-time">Cargando datos...</div>
 
 <script>
-// ══════════════════════════════════════════════
-//  CONFIGURACIÓN
-// ══════════════════════════════════════════════
 const APP_ID     = '6aac2d6e-c95a-4bfe-bb61-c172285507ba';
 const ACCESS_KEY = 'V2-Nbk6J-KHYx6-eJoae-xLAL2-P7sTC-od4Rs-jv62k-4NvCf';
 
 const T_PEDIDOS   = 'Pedidos';
 const T_PRODUCTOS = 'Productos';
 const T_CLIENTES  = 'Clientes';
-const T_DET       = 'Detalle_Pedidos';   // tabla de detalle/líneas de pedido
+const T_DET       = 'Detalle_Pedidos';
 
-// Columnas Pedidos
 const C_ESTADO      = 'Estado';
 const C_CLIENTE     = 'Nombre_Cliente';
 const C_FOLIO       = 'Folio';
 const C_TOTAL       = 'Total';
-const C_COMPROBANTE = 'Comprobante_Enviado'; // TRUE/FALSE
+const C_COMPROBANTE = 'Comprobante_Enviado';
 
-// Columnas Productos
 const C_NOMBRE_P  = 'Nombre';
 const C_CAT       = 'Categoria';
 const C_STOCK     = 'Stock';
 const C_ID_PROD   = 'ID_Producto';
 
-// Columnas Detalle_Pedidos (para ranking de productos)
-const C_PROD_REF  = 'ID_Producto';   // referencia al producto en detalle
-const C_CANTIDAD  = 'Cantidad';       // unidades por línea
+const C_PROD_REF  = 'ID_Producto';
+const C_CANTIDAD  = 'Cantidad';
 
-// Estados
 const E_REVISION  = 'EN REVISIÓN';
 const E_REVISADO  = 'REVISADO';
 const E_ENTREGADO = 'ENTREGADO';
 
-// ══════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════
 const API = (tabla) =>
   `https://api.appsheet.com/api/v2/apps/${APP_ID}/tables/${encodeURIComponent(tabla)}/Action`;
 
@@ -527,10 +517,9 @@ function iniStyle(e) {
   if (u === E_REVISION)  return 'background:#3d2e0a;color:#f0b429';
   if (u === E_REVISADO)  return 'background:#0f1f3d;color:#5b9cf6';
   if (u === E_ENTREGADO) return 'background:#1a3d2a;color:#2ecc8a';
-  return 'background:#272727;color:#555';
+  return 'background:#272727;color:#a0a09a';
 }
 
-// Colores para gráficos
 const PALETTE = ['#2ecc8a','#5b9cf6','#f0b429','#f05252','#a78bfa','#e07a5f','#3a86a8','#06d6a0'];
 
 let chartEstados = null;
@@ -557,7 +546,7 @@ function renderChartEstados(revision, revisado, entregado, otros) {
       plugins: {
         legend: {
           position: 'bottom',
-          labels: { color: '#999', font: { size: 10, family: 'Inter' }, padding: 12, boxWidth: 10 }
+          labels: { color: '#d0d0c8', font: { size: 10, family: 'Inter' }, padding: 12, boxWidth: 10 }
         },
         tooltip: {
           callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} pedidos` }
@@ -588,16 +577,13 @@ function renderChartCat(cats) {
       indexAxis: 'y',
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: '#2a2a2a' } },
-        y: { ticks: { color: '#999', font: { size: 10 } }, grid: { display: false } }
+        x: { ticks: { color: '#a0a09a', font: { size: 9 } }, grid: { color: '#2a2a2a' } },
+        y: { ticks: { color: '#d0d0c8', font: { size: 10 } }, grid: { display: false } }
       }
     }
   });
 }
 
-// ══════════════════════════════════════════════
-//  MAIN
-// ══════════════════════════════════════════════
 async function cargarDatos() {
   const now = new Date();
   document.getElementById('h-day').textContent  = now.toLocaleDateString('es-CL',{ weekday:'long' });
@@ -605,7 +591,6 @@ async function cargarDatos() {
   document.getElementById('t-time').textContent = now.toLocaleTimeString('es-CL',{ hour:'2-digit', minute:'2-digit' });
 
   try {
-    // Carga todas las tablas en paralelo
     const [pedidos, productos, clientes, detalle] = await Promise.allSettled([
       fetchTabla(T_PEDIDOS),
       fetchTabla(T_PRODUCTOS),
@@ -618,7 +603,6 @@ async function cargarDatos() {
     const CL = clientes.status  === 'fulfilled' ? clientes.value  : [];
     const DT = detalle.status   === 'fulfilled' ? detalle.value   : [];
 
-    // ── DEBUG: ver qué valores reales llegan ──
     if (P.length > 0) {
       console.log('=== MUESTRA PEDIDO [0] ===', JSON.stringify(P[0]));
       console.log('Comprobante values:', [...new Set(P.map(r => r[C_COMPROBANTE]))]);
@@ -626,38 +610,27 @@ async function cargarDatos() {
       console.log('Total values (primeros 3):', P.slice(0,3).map(r => r[C_TOTAL]));
     }
 
-    // ── HELPER: parsear monto ──
-    // AppSheet puede devolver "8.000", "8,000", "8000", "$8.000", etc.
     function parseMonto(val) {
       if (!val && val !== 0) return 0;
       const s = String(val).trim();
-      // Quitar símbolo $ y espacios
       let clean = s.replace(/[$\s]/g, '');
-      // Si tiene coma como decimal (ej: "8,5") → reemplazar coma por punto
-      // Si tiene punto como miles (ej: "8.000") → quitar puntos
-      // Detectar: si hay punto Y los dígitos después son exactamente 3 → miles
       if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(clean)) {
-        // Formato europeo/chileno: 8.000 ó 8.000,50
         clean = clean.replace(/\./g, '').replace(',', '.');
       } else if (/,/.test(clean)) {
-        // Coma como decimal: 8000,50
         clean = clean.replace(',', '.');
       }
       return parseFloat(clean) || 0;
     }
 
-    // ── HELPER: detectar TRUE en campo booleano de AppSheet ──
     function esTrue(val) {
       if (val === true || val === 1) return true;
       const s = String(val||'').trim().toUpperCase();
       return s === 'TRUE' || s === 'YES' || s === 'Y' || s === '1' || s === 'SI' || s === 'SÍ';
     }
 
-    // ── KPIs PEDIDOS ──
     const ventas    = P.filter(r => esTrue(r[C_COMPROBANTE]));
     const revision  = P.filter(r => (r[C_ESTADO]||'').trim().toUpperCase() === E_REVISION);
     const revisado  = P.filter(r => (r[C_ESTADO]||'').trim().toUpperCase() === E_REVISADO);
-    // ENTREGADO acepta también "FINALIZADO" por si AppSheet usa ese valor
     const entregado = P.filter(r => {
       const e = (r[C_ESTADO]||'').trim().toUpperCase();
       return e === E_ENTREGADO || e === 'FINALIZADO' || e === 'FINALIZADOS';
@@ -670,17 +643,10 @@ async function cargarDatos() {
     set('k-entregado',entregado.length);
     set('k-clientes', CL.length || '—');
 
-    console.log(`Ventas (comprobante TRUE): ${ventas.length} / ${P.length}`);
-    console.log(`Revisión: ${revision.length} | Revisado: ${revisado.length} | Entregado: ${entregado.length}`);
-
-    // ── VENTAS TOTALES ──
     const totalesVenta = ventas.map(r => parseMonto(r[C_TOTAL]));
     const sumaVentas   = totalesVenta.reduce((a,b) => a+b, 0);
     const maxVenta     = totalesVenta.length ? Math.max(...totalesVenta) : 0;
 
-    console.log('Totales ventas confirmadas:', totalesVenta);
-
-    // Unidades vendidas desde Detalle_Pedidos
     const foliosVenta = new Set(ventas.map(r => r[C_FOLIO] || r['ID_Pedido'] || '').filter(Boolean));
     let unidadesVendidas = 0;
     if (DT.length > 0) {
@@ -694,9 +660,7 @@ async function cargarDatos() {
       unidadesVendidas = ventas.length;
     }
 
-    // Monto total de TODOS los pedidos sin importar estado
     const montoTotalTodos = P.reduce((s,r) => s + parseMonto(r[C_TOTAL]), 0);
-    console.log('Monto total todos pedidos:', montoTotalTodos);
 
     set('v-total', fmt(sumaVentas));
     set('v-sub',   `${ventas.length} ventas confirmadas`);
@@ -706,10 +670,8 @@ async function cargarDatos() {
     document.getElementById('hero-sub').textContent =
       `${P.length} pedidos · ${ventas.length} confirmados · ${fmt(sumaVentas)} en ventas`;
 
-    // ── GRÁFICO ESTADOS ──
     renderChartEstados(revision.length, revisado.length, entregado.length, Math.max(0,otros));
 
-    // ── PEDIDOS RECIENTES ──
     const recientes = [...P].reverse().slice(0, 8);
     document.getElementById('pedidos-lista').innerHTML = recientes.length === 0
       ? '<div class="panel-empty">Sin pedidos registrados</div>'
@@ -729,7 +691,6 @@ async function cargarDatos() {
           </div>`;
         }).join('');
 
-    // ── RANKING PRODUCTOS (desde Detalle_Pedidos) ──
     const rankMap = {};
     if (DT.length > 0) {
       DT.forEach(d => {
@@ -738,14 +699,12 @@ async function cargarDatos() {
         if (prod) rankMap[prod] = (rankMap[prod] || 0) + qty;
       });
     } else {
-      // Fallback: contar desde nombres en pedidos si no hay detalle
       P.forEach(r => {
         const prod = r['Producto'] || r['ID_Producto'] || r[C_FOLIO] || 'Pedido';
         rankMap[prod] = (rankMap[prod] || 0) + 1;
       });
     }
 
-    // Enriquecer con nombre real del producto si tenemos la tabla
     const prodNombres = {};
     PR.forEach(p => { prodNombres[p[C_ID_PROD]] = p[C_NOMBRE_P] || p[C_ID_PROD]; });
 
@@ -771,7 +730,6 @@ async function cargarDatos() {
           </div>`;
         }).join('');
 
-    // ── CATEGORÍAS CON STOCK TOTAL ──
     const catMap = {};
     PR.forEach(p => {
       const cat   = (p[C_CAT] || 'Sin categoría').trim();
@@ -795,7 +753,6 @@ async function cargarDatos() {
 
     renderChartCat(cats.slice(0, 7));
 
-    // ── BAJO STOCK ──
     const bajoStock = PR
       .filter(p => (parseFloat(p[C_STOCK]) || 0) <= 10)
       .sort((a,b) => (parseFloat(a[C_STOCK])||0) - (parseFloat(b[C_STOCK])||0));
@@ -821,7 +778,6 @@ async function cargarDatos() {
           </div>`;
         }).join('');
 
-    // ── STATUS ──
     const tpill = document.getElementById('t-status');
     tpill.textContent = '● En línea';
     tpill.style.background = 'var(--green2)';
@@ -845,7 +801,6 @@ async function cargarDatos() {
   }
 }
 
-// Reloj en tiempo real
 setInterval(() => {
   document.getElementById('t-time').textContent =
     new Date().toLocaleTimeString('es-CL',{ hour:'2-digit', minute:'2-digit' });
