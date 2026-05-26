@@ -386,6 +386,13 @@ body {
       <div class="kpi-sub">productos ≤ 10 unidades</div>
       <div class="kpi-icon">⚠️</div>
     </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--amber)"></div>
+      <div class="kpi-label">⭐ Producto estrella</div>
+      <div class="kpi-value loading" id="k-estrella" style="font-size:16px;line-height:1.2;padding-top:4px">—</div>
+      <div class="kpi-sub" id="k-estrella-sub">más vendido</div>
+      <div class="kpi-icon">🏆</div>
+    </div>
   </div>
 
   <!-- VENTAS + ESTADOS -->
@@ -767,6 +774,17 @@ async function cargarDatos() {
       .slice(0, 8);
     const maxQty = rankEntries[0]?.qty || 1;
 
+    // Producto estrella
+    if (rankEntries.length > 0) {
+      const top = rankEntries[0];
+      const el = document.getElementById('k-estrella');
+      if (el) { el.textContent = top.nombre; el.classList.remove('loading'); }
+      set('k-estrella-sub', `${top.qty} unidades vendidas`);
+    } else {
+      set('k-estrella', '—');
+      set('k-estrella-sub', 'sin datos');
+    }
+
     document.getElementById('rank-lista').innerHTML = rankEntries.length === 0
       ? '<div class="panel-empty">Sin datos de detalle de pedidos</div>'
       : rankEntries.map((p, i) => {
@@ -849,7 +867,7 @@ async function cargarDatos() {
     tpill.textContent = '● Sin conexión';
     tpill.style.background = 'var(--red2)';
     tpill.style.color = 'var(--red)';
-    ['k-total','k-ventas','k-revision','k-revisado','k-entregado','k-clientes','k-stock'].forEach(id => set(id,'—'));
+    ['k-total','k-ventas','k-revision','k-revisado','k-entregado','k-clientes','k-stock','k-estrella'].forEach(id => set(id,'—'));
     document.getElementById('hero-sub').textContent = 'Error al conectar con AppSheet';
   }
 }
